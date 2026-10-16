@@ -8,6 +8,15 @@ once a first release is published.
 
 ## [Unreleased]
 
+### Fixed
+
+- Search navigation at high zoom: `QPdfPageNavigator.jump()` ignores the
+  target location in multi-page mode, so a match low on a zoomed page could
+  stay out of view. The viewer now scrolls itself (`PageLayout.scroll_to_reveal`):
+  the view stays put while the match lies in the central 70% of the viewport
+  and otherwise centres on it (per axis). `match_activated` now carries the
+  match's bounding rectangle.
+
 ### Added
 
 - Initial project scaffolding: folder structure, documentation

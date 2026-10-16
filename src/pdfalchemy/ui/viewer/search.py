@@ -7,7 +7,7 @@ to show via signals and exposes the results for whoever paints highlights.
 
 from __future__ import annotations
 
-from PySide6.QtCore import QObject, QPointF, QRectF, QTimer, Signal
+from PySide6.QtCore import QObject, QRectF, QSizeF, QTimer, Signal
 from PySide6.QtPdf import QPdfDocument, QPdfSearchModel
 
 #: Minimum query length before an auto-search is triggered.
@@ -25,9 +25,9 @@ class SearchController(QObject):
     results_changed = Signal(int, int, bool)
 
     #: Emitted when a match becomes the current one and should be scrolled
-    #: into view. Args: 0-based ``page_index`` and the match ``location``
-    #: (in page points).
-    match_activated = Signal(int, QPointF)
+    #: into view. Args: 0-based ``page_index`` and the bounding rectangle of
+    #: the match (in page points).
+    match_activated = Signal(int, QRectF)
 
     #: Emitted whenever highlight painting needs to be refreshed.
     highlights_changed = Signal()
@@ -129,7 +129,12 @@ class SearchController(QObject):
         self._current_index = index
         self._current_page = result.page()
         self._current_rects = list(result.rectangles())
-        self.match_activated.emit(result.page(), result.location())
+        bounds = QRectF()
+        for rect in self._current_rects:
+            bounds = bounds.united(rect) if bounds.isValid() else QRectF(rect)
+        if not bounds.isValid():
+            bounds = QRectF(result.location(), QSizeF(0, 0))
+        self.match_activated.emit(result.page(), bounds)
         self.highlights_changed.emit()
         self._emit_results()
 

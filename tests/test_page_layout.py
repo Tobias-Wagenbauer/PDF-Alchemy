@@ -105,6 +105,29 @@ def test_page_rect_to_content_maps_points_to_pixels(layout):
     )
 
 
+def test_reveal_keeps_scroll_while_rect_is_inside_the_centre_zone(layout):
+    # 100x100 viewport: the central 70% spans 15..85 on both axes.
+    rect = (20.0, 20.0, 10.0, 10.0)  # content (26, 26)
+    assert layout.scroll_to_reveal(0, rect, (0, 0), (100, 100)) == (0, 0)
+
+
+def test_reveal_centres_rect_outside_the_zone_per_axis(layout):
+    # Page 2 starts at y=226, far below the viewport; x=26 is still inside it.
+    rect = (20.0, 0.0, 10.0, 10.0)
+    assert layout.scroll_to_reveal(2, rect, (0, 0), (100, 100)) == (0, 181)
+
+
+def test_reveal_rect_in_viewport_but_outside_the_zone_is_recentred(layout):
+    # Visible (y=90..100) but in the bottom margin band of the viewport.
+    rect = (20.0, 84.0, 10.0, 10.0)
+    assert layout.scroll_to_reveal(0, rect, (0, 0), (100, 100)) == (0, 45)
+
+
+def test_reveal_rect_larger_than_the_zone_is_centred(layout):
+    rect = (0.0, 0.0, 400.0, 100.0)  # content (6, 6, 400, 100)
+    assert layout.scroll_to_reveal(0, rect, (0, 0), (100, 100)) == (156, 6)
+
+
 def test_empty_layout_is_safe():
     page_layout = PageLayout()
     page_layout.rebuild([], PARAMS)

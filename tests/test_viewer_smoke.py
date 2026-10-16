@@ -12,6 +12,7 @@ from reportlab.pdfgen import canvas
 
 from pdfalchemy.ui.main_window import MainWindow
 from pdfalchemy.ui.viewer.overlays import SearchHighlightOverlay
+from pdfalchemy.ui.viewer.viewer_widget import PdfViewerWidget
 
 PAGE_COUNT = 5
 SEARCH_PAGES = (1, 3)  # 0-based pages containing the search term
@@ -117,6 +118,53 @@ def test_search_next_prev_and_clear(qtbot, window, sample_pdf):
 
     window._viewer.clear_search()
     assert results[-1] == (0, 0, False)
+
+
+def test_zoomed_search_scrolls_the_match_into_the_viewport(qtbot, window, sample_pdf):
+    results = []
+    window._viewer.search_results_changed.connect(
+        lambda i, n, s: results.append((i, n, s))
+    )
+    window.open_path(sample_pdf)
+    viewer = window._viewer
+    viewer.set_zoom_factor(3.0)
+    viewer.set_search_query("alchemy")
+    qtbot.waitUntil(
+        lambda: results and results[-1][1] == len(SEARCH_PAGES) and not results[-1][2]
+    )
+
+    for _ in range(len(SEARCH_PAGES)):
+        match = viewer._search.results_on_page(viewer._search._current_page)[0]
+        rect = match.rectangles()[0]
+        x, y, width, height = viewer.page_layout().page_rect_to_content(
+            viewer._search._current_page,
+            rect.x(),
+            rect.y(),
+            rect.width(),
+            rect.height(),
+        )
+        view = viewer._view
+        scroll_x = view.horizontalScrollBar().value()
+        scroll_y = view.verticalScrollBar().value()
+        assert 0 <= x - scroll_x and x + width - scroll_x <= view.viewport().width()
+        assert 0 <= y - scroll_y and y + height - scroll_y <= view.viewport().height()
+        viewer.search_next()
+
+
+def test_search_overlay_covers_the_whole_viewport(qtbot, sample_pdf):
+    viewer = PdfViewerWidget()
+    qtbot.addWidget(viewer)
+    viewer.resize(900, 600)
+    viewer.show()
+    viewer.load(sample_pdf)
+    overlay = viewer.findChild(SearchHighlightOverlay)
+    viewport = viewer._view.viewport()
+
+    qtbot.waitUntil(lambda: viewport.height() > 400)
+    assert overlay.size() == viewport.size()
+    viewer.resize(1100, 800)
+    qtbot.waitUntil(lambda: overlay.size() == viewport.size())
+    assert overlay.height() > 600
 
 
 def test_short_query_does_not_search(qtbot, window, sample_pdf):

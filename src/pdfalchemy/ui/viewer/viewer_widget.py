@@ -12,7 +12,7 @@ highlight overlay each live in their own module of this package.
 
 from __future__ import annotations
 
-from PySide6.QtCore import QPointF, Signal
+from PySide6.QtCore import QEvent, QObject, QPointF, QRectF, Signal
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtPdf import QPdfDocument
 from PySide6.QtPdfWidgets import QPdfView
@@ -90,7 +90,10 @@ class PdfViewerWidget(QWidget):
             self._view, self._search, self.page_layout, self
         )
         self._search_overlay.hide()
-
+        # The overlay must track the viewport's real geometry: this widget's
+        # own resizeEvent runs before the layout has resized the view.
+        self._view.installEventFilter(self)
+        self._view.viewport().installEventFilter(self)
         self._zoom.zoom_changed.connect(self._on_zoom_changed)
         self._search.results_changed.connect(self.search_results_changed)
         self._search.match_activated.connect(self._on_match_activated)
@@ -149,6 +152,31 @@ class PdfViewerWidget(QWidget):
         self._forced_page = page_index
         self._emit_page_position()
 
+    def _reveal_rect(self, page_index: int, rect: QRectF) -> None:
+        """Scroll so ``rect`` (page points) is in the central zone of the viewport.
+
+        ``QPdfPageNavigator.jump`` ignores the target location in multi-page
+        mode (it only goes to the page top), so a match low on a zoomed page
+        would stay out of view; the scrollbars are set directly instead.
+        """
+        h_bar = self._view.horizontalScrollBar()
+        v_bar = self._view.verticalScrollBar()
+        viewport = self._view.viewport()
+        target_x, target_y = self.page_layout().scroll_to_reveal(
+            page_index,
+            (rect.x(), rect.y(), rect.width(), rect.height()),
+            (h_bar.value(), v_bar.value()),
+            (viewport.width(), viewport.height()),
+        )
+        self._jumping = True
+        try:
+            h_bar.setValue(target_x)
+            v_bar.setValue(target_y)
+        finally:
+            self._jumping = False
+        self._forced_page = page_index
+        self._emit_page_position()
+
     # -- Zoom -------------------------------------------------------------
 
     @property
@@ -200,8 +228,8 @@ class PdfViewerWidget(QWidget):
         """Jump to the previous match, wrapping around before the first one."""
         self._search.previous()
 
-    def _on_match_activated(self, page_index: int, location: QPointF) -> None:
-        self._jump_to(page_index, location)
+    def _on_match_activated(self, page_index: int, rect: QRectF) -> None:
+        self._reveal_rect(page_index, rect)
 
     # -- Page geometry ----------------------------------------------------
 
@@ -250,6 +278,11 @@ class PdfViewerWidget(QWidget):
         super().resizeEvent(event)
         self._position_zoom_control()
         self._position_search_overlay()
+
+    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
+        if event.type() in (QEvent.Type.Resize, QEvent.Type.Move):
+            self._position_search_overlay()
+        return super().eventFilter(watched, event)
 
     def _position_zoom_control(self, *_args: object) -> None:
         control = self._zoom_control

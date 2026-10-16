@@ -14,6 +14,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 
 POINTS_PER_INCH = 72.0
+#: Share of the viewport (per axis, around its centre) in which a target
+#: counts as comfortably visible and the view is left where it is.
+CENTER_ZONE_FRACTION = 0.7
 
 
 @dataclass(frozen=True)
@@ -29,6 +32,20 @@ class LayoutParams:
     margin_top: int
     page_spacing: int
     viewport_width: int
+
+
+def _scroll_axis_to_reveal(
+    start: float, size: float, scroll: int, viewport: int, zone: float
+) -> int:
+    """Scroll offset along one axis that brings ``[start, start + size]`` into view.
+
+    Returns ``scroll`` unchanged while the range lies inside the central
+    ``zone`` of the viewport, otherwise the offset that centres it.
+    """
+    margin = viewport * (1 - zone) / 2
+    if start >= scroll + margin and start + size <= scroll + viewport - margin:
+        return scroll
+    return round(start + size / 2 - viewport / 2)
 
 
 class PageLayout:
@@ -125,6 +142,29 @@ class PageLayout:
             if visible > best_visible:
                 best_index, best_visible = index, visible
         return best_index
+
+    def scroll_to_reveal(
+        self,
+        page_index: int,
+        rect: tuple[float, float, float, float],
+        scroll: tuple[int, int],
+        viewport: tuple[int, int],
+        zone: float = CENTER_ZONE_FRACTION,
+    ) -> tuple[int, int]:
+        """New ``(scroll_x, scroll_y)`` that keeps ``rect`` comfortably in view.
+
+        ``rect`` is ``(x, y, width, height)`` in page points. Each axis is
+        only changed when the rectangle lies outside the central ``zone``
+        (a fraction of the viewport) on that axis, in which case it is
+        centred. The result is not clamped to the scrollable range.
+        """
+        x, y, width, height = self.page_rect_to_content(page_index, *rect)
+        scroll_x, scroll_y = scroll
+        viewport_width, viewport_height = viewport
+        return (
+            _scroll_axis_to_reveal(x, width, scroll_x, viewport_width, zone),
+            _scroll_axis_to_reveal(y, height, scroll_y, viewport_height, zone),
+        )
 
     def page_rect_to_content(
         self, page_index: int, x: float, y: float, width: float, height: float
