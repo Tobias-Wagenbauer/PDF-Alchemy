@@ -2,7 +2,7 @@
 ;   iscc installer\pdfalchemy.iss
 
 #define MyAppName "PDF Alchemy"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.2.0"
 #define MyAppExe "PDFAlchemy.exe"
 #define MyAppUserModelID "PDFAlchemy.PDFAlchemy"
 

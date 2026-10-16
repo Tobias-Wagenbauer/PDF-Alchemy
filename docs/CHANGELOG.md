@@ -8,6 +8,14 @@ once a first release is published.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-16
+
+### Added
+
+- The main window's size and position are remembered between sessions
+  (`QSettings`, restored with `restoreGeometry`; skipped when no organization
+  name is set, e.g. in tests).
+
 ### Fixed
 
 - Search navigation at high zoom: `QPdfPageNavigator.jump()` ignores the
@@ -16,6 +24,12 @@ once a first release is published.
   the view stays put while the match lies in the central 70% of the viewport
   and otherwise centres on it (per axis). `match_activated` now carries the
   match's bounding rectangle.
+- The search highlight overlay was not resized together with the page view,
+  so highlights (including the active match marker) were clipped below roughly
+  half of the viewport height. The overlay now follows the viewport's real
+  geometry via an event filter.
+
+## [0.1.0]
 
 ### Added
 
