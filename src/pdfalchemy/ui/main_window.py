@@ -7,8 +7,8 @@ needed to view a PDF. Toolbar, thumbnail panel, and editing actions
 
 from __future__ import annotations
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QAction, QKeySequence
+from PySide6.QtCore import QByteArray, QCoreApplication, QSettings, Qt
+from PySide6.QtGui import QAction, QCloseEvent, QKeySequence
 from PySide6.QtPdf import QPdfDocument
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QSplitter
 
@@ -18,6 +18,7 @@ from pdfalchemy.ui.sidebar import SidebarPanel
 from pdfalchemy.ui.viewer import PdfViewerWidget
 
 _DEFAULT_TITLE = "PDF Alchemy"
+_GEOMETRY_KEY = "mainWindow/geometry"
 
 
 class MainWindow(QMainWindow):
@@ -50,6 +51,28 @@ class MainWindow(QMainWindow):
         self._create_actions()
         self._create_menu()
         self._set_document_open(False)
+        self._restore_window_geometry()
+
+    def _settings(self) -> QSettings | None:
+        # Without an organization name Qt has no place to store settings
+        # (e.g. in tests), so persistence is skipped.
+        if not QCoreApplication.organizationName():
+            return None
+        return QSettings()
+
+    def _restore_window_geometry(self) -> None:
+        settings = self._settings()
+        if settings is None:
+            return
+        geometry = settings.value(_GEOMETRY_KEY)
+        if isinstance(geometry, QByteArray):
+            # Qt keeps a restored window on a screen that still exists.
+            self.restoreGeometry(geometry)
+
+    def closeEvent(self, event: QCloseEvent) -> None:
+        if (settings := self._settings()) is not None:
+            settings.setValue(_GEOMETRY_KEY, self.saveGeometry())
+        super().closeEvent(event)
 
     def _create_actions(self) -> None:
         self.open_action = QAction("&Open...", self)

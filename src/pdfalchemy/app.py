@@ -39,6 +39,7 @@ def run() -> int:
     _set_windows_app_id()
     app = QApplication(sys.argv)
     app.setApplicationName("PDF Alchemy")
+    app.setOrganizationName("PDFAlchemy")
     app.setWindowIcon(QIcon(str(APP_ICON_PATH)))
     apply_theme(app)
 
