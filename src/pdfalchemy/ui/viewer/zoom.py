@@ -9,9 +9,26 @@ from PySide6.QtPdfWidgets import QPdfView
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QPushButton, QWidget
 
 MIN_ZOOM = 0.10
-MAX_ZOOM = 5.00
+MAX_ZOOM = 50.00
 #: Fixed levels used by the +/- buttons.
-ZOOM_STEPS = (0.10, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 2.00, 3.00, 4.00, 5.00)
+ZOOM_STEPS = (
+    0.10,
+    0.25,
+    0.50,
+    0.75,
+    1.00,
+    1.25,
+    1.50,
+    2.00,
+    3.00,
+    4.00,
+    5.00,
+    10.00,
+    20.00,
+    30.00,
+    40.00,
+    50.00,
+)
 #: Zoom multiplier per mouse-wheel notch (120 angle-delta units).
 _WHEEL_ZOOM_BASE = 1.1
 _WHEEL_NOTCH = 120

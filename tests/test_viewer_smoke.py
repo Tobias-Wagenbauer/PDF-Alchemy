@@ -85,7 +85,7 @@ def test_zoom(qtbot, window, sample_pdf):
     assert viewer.zoom_factor == pytest.approx(1.0)
 
     viewer.set_zoom_factor(100.0)
-    assert viewer.zoom_factor == pytest.approx(5.0)
+    assert viewer.zoom_factor == pytest.approx(50.0)
 
 
 def test_search_next_prev_and_clear(qtbot, window, sample_pdf):
