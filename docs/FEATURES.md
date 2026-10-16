@@ -42,7 +42,7 @@ Status legend: 📋 Planned · 🔨 In progress · ✅ Done
 | Print | Print the document via the native Windows print dialog | `QPrinter` + `QPrintDialog` | 📋 |
 | Save / Save As | Standard save workflow with file dialogs | `pypdf` writer + `QFileDialog` | 📋 |
 | Recent files | Quick access to recently opened documents | Persisted list in `services/recent_files.py` | 📋 |
-| File associations | "Open with PDF Alchemy" from Windows Explorer | Registered during installer setup (Inno Setup) | 📋 |
+| File associations | "Open with PDF Alchemy" from Windows Explorer | Registered during installer setup (Inno Setup); the app opens a PDF passed as a command-line argument | ✅ |
 | Drag & drop | Drop PDF files onto the app window to open them | Qt drag-and-drop event handling | 📋 |
 
 ## Export
@@ -57,8 +57,9 @@ Status legend: 📋 Planned · 🔨 In progress · ✅ Done
 
 | Feature | Description | Implementation approach | Status |
 |---|---|---|---|
-| Standalone executable | Build a Windows `.exe` | PyInstaller | 📋 |
-| Installer | Installer with shortcuts, file association, uninstaller | Inno Setup script in `installer/` | 📋 |
+| Standalone executable | Build a Windows `.exe` | PyInstaller (`pdfalchemy.spec`) | ✅ |
+| Installer | Installer with shortcuts, file association, uninstaller | Inno Setup script in `installer/` | ✅ |
+| Code signing | Sign `PDFAlchemy.exe` and the setup exe so SmartScreen/UAC show a verified publisher | Code-signing certificate (or Azure Trusted Signing / SignPath) + `signtool`; Inno Setup `SignTool` directive | 📋 |
 
 ## Non-goals (for now)
 

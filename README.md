@@ -102,13 +102,14 @@ implemented vs. still planned.
 1. Scaffold project structure & documentation ✅
 2. Set up development environment (conda `pdf_alchemy`, dependencies installed) ✅
 3. Basic PDF viewer: open file via native dialog, render pages, close ✅
-4. Design system (dark theme, deep purple accent) + page position sidebar ✅ (current step)
-5. Core page operations (rotate, merge, split, remove pages)
+4. Design system (dark theme, deep purple accent) + page position sidebar, jump to page, zoom, find in document ✅
+5. Core page operations (rotate, merge, split, remove pages) 🔨 (next step)
 6. Printing & save/export
 7. Signature stamping (visual overlay)
 8. Cryptographic signing (PAdES)
-9. Packaging (PyInstaller + Inno Setup installer)
-10. Polish: recent files, settings, file associations, drag & drop, zoom/pan controls, thumbnails
+9. Packaging (PyInstaller + Inno Setup installer, incl. `.pdf` file association) ✅ (unsigned for now)
+10. Polish: recent files, settings, drag & drop, thumbnails
+11. Code-sign the executable and installer (code-signing certificate, `signtool` / Inno Setup `SignTool`) so Windows SmartScreen and UAC show a verified publisher for public distribution
 
 ## License
 
