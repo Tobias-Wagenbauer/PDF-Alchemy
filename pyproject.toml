@@ -1,0 +1,39 @@
+[project]
+name = "pdf-alchemy"
+version = "0.1.0"
+description = "A free, open-source Windows desktop app for viewing and editing PDF files."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Tobias Wagenbauer" }
+]
+
+# Runtime dependencies. See docs/TECH_STACK.md for rationale on each choice.
+# Exact, reproducible pinned versions (including transitive deps) live in
+# requirements.txt, generated via `pip freeze` from the `pdf_alchemy` conda env.
+dependencies = [
+    "PySide6>=6.12",   # Qt UI framework + QtPdf rendering module
+    "pypdf>=6.20",     # PDF read/write/merge/split/rotate
+    "reportlab>=5.0",  # Visual signature stamp overlays
+    "pyhanko>=0.37",   # Cryptographic (PAdES) PDF signing
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.1",
+    "pytest-qt>=4.5",
+    "pyinstaller>=6.22",
+    "black>=26.10",
+    "ruff>=0.17",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pdfalchemy = ["resources/icons/*", "resources/styles/*.qss"]

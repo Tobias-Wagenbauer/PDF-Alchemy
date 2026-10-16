@@ -1,0 +1,320 @@
+/*
+ * Dark theme stylesheet for PDF Alchemy.
+ *
+ * Implements the palette and component rules defined in docs/DESIGN.md.
+ * Keep this file and docs/DESIGN.md (and ui/theme.py's Colors class) in
+ * sync whenever a token changes.
+ */
+
+* {
+    font-family: "Segoe UI Variable", "Segoe UI", sans-serif;
+    font-size: 10pt;
+    color: #F2F1F5;
+}
+
+QMainWindow,
+QWidget#pdfViewer {
+    background-color: #121214;
+}
+
+/* ---------- Menu bar ---------- */
+
+QMenuBar {
+    background-color: #1A1A1D;
+    border-bottom: 1px solid #302F36;
+    padding: 2px 4px;
+}
+
+QMenuBar::item {
+    background: transparent;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+QMenuBar::item:selected {
+    background-color: #242428;
+}
+
+QMenuBar::item:pressed {
+    background-color: rgba(124, 58, 237, 0.16);
+    color: #7C3AED;
+}
+
+/* ---------- Menus ---------- */
+
+QMenu {
+    background-color: #1A1A1D;
+    border: 1px solid #302F36;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+QMenu::item {
+    padding: 6px 24px 6px 12px;
+    border-radius: 4px;
+}
+
+QMenu::item:selected {
+    background-color: #242428;
+}
+
+QMenu::item:disabled {
+    color: #5A5960;
+}
+
+QMenu::separator {
+    height: 1px;
+    background-color: #302F36;
+    margin: 4px 8px;
+}
+
+/* ---------- Sidebar panel ---------- */
+
+QWidget#sidebarPanel {
+    background-color: #1A1A1D;
+    border-left: 1px solid #302F36;
+}
+
+QLabel#sidebarHeading {
+    color: #A4A3AD;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+QLineEdit#currentPageEdit {
+    color: #7C3AED;
+    background-color: #242428;
+    font-size: 20pt;
+    font-weight: 600;
+    border: 1px solid #302F36;
+    border-radius: 4px;
+    padding: 0px 2px;
+}
+
+QLineEdit#currentPageEdit:hover {
+    border: 1px solid #45444D;
+}
+
+QLineEdit#currentPageEdit:focus {
+    border: 1px solid #7C3AED;
+}
+
+QLabel#currentPageLabel {
+    color: #7C3AED;
+    font-size: 20pt;
+    font-weight: 600;
+}
+
+QLabel#totalPagesLabel {
+    color: #A4A3AD;
+    font-size: 10pt;
+}
+
+QLabel#noDocumentLabel {
+    color: #5A5960;
+    font-size: 10pt;
+}
+
+QLineEdit#searchEdit {
+    color: #F2F1F5;
+    background-color: #242428;
+    border: 1px solid #302F36;
+    border-radius: 4px;
+    padding: 4px 6px;
+}
+
+QLineEdit#searchEdit:hover {
+    border: 1px solid #45444D;
+}
+
+QLineEdit#searchEdit:focus {
+    border: 1px solid #7C3AED;
+}
+
+QLabel#searchResultLabel {
+    color: #A4A3AD;
+    font-size: 9pt;
+}
+
+QPushButton#searchPrevButton,
+QPushButton#searchNextButton {
+    background-color: #242428;
+    color: #F2F1F5;
+    border: 1px solid #302F36;
+    border-radius: 4px;
+    padding: 2px 10px;
+    font-weight: 600;
+}
+
+QPushButton#searchPrevButton:hover,
+QPushButton#searchNextButton:hover {
+    background-color: #2D2D33;
+}
+
+QPushButton#searchPrevButton:pressed,
+QPushButton#searchNextButton:pressed {
+    background-color: rgba(124, 58, 237, 0.16);
+    color: #7C3AED;
+}
+
+QPushButton#searchPrevButton:disabled,
+QPushButton#searchNextButton:disabled {
+    background-color: #1A1A1D;
+    color: #5A5960;
+    border: 1px solid #242428;
+}
+
+/* ---------- Splitter ---------- */
+
+QSplitter::handle {
+    background-color: #302F36;
+    width: 1px;
+}
+
+QSplitter::handle:hover {
+    background-color: #7C3AED;
+}
+
+/* ---------- Scrollbars ---------- */
+
+QScrollBar:vertical {
+    background: #1A1A1D;
+    width: 10px;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background: #2D2D33;
+    border-radius: 4px;
+    min-height: 24px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #7C3AED;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+QScrollBar:horizontal {
+    background: #1A1A1D;
+    height: 10px;
+    margin: 0;
+}
+
+QScrollBar::handle:horizontal {
+    background: #2D2D33;
+    border-radius: 4px;
+    min-width: 24px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #7C3AED;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    width: 0;
+}
+
+/* ---------- Buttons (reserved for future toolbar/dialogs) ---------- */
+
+QPushButton {
+    background-color: #7C3AED;
+    color: #F2F1F5;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 14px;
+}
+
+QPushButton:hover {
+    background-color: #8B5CF6;
+}
+
+QPushButton:pressed {
+    background-color: #6D28D9;
+}
+
+QPushButton:disabled {
+    background-color: #2D2D33;
+    color: #5A5960;
+}
+
+/* ---------- Empty state (no document open) ---------- */
+
+QWidget#emptyStateView {
+    background-color: transparent;
+}
+
+QFrame#emptyStateCard {
+    background-color: #1A1A1D;
+    border: 1px solid #302F36;
+    border-radius: 6px;
+}
+
+QLabel#emptyStateHeading {
+    color: #F2F1F5;
+    font-size: 13pt;
+    font-weight: 600;
+}
+
+QLabel#emptyStateSubtitle {
+    color: #A4A3AD;
+    font-size: 10pt;
+}
+
+QPushButton#emptyStateOpenButton {
+    padding: 8px 20px;
+}
+
+/* ---------- Floating zoom control ---------- */
+
+QFrame#zoomControl {
+    background-color: rgba(36, 36, 40, 0.94);
+    border: 1px solid #302F36;
+    border-radius: 8px;
+}
+
+QFrame#zoomControl QPushButton {
+    background-color: transparent;
+    color: #F2F1F5;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+QFrame#zoomControl QPushButton:hover {
+    background-color: #2D2D33;
+}
+
+QFrame#zoomControl QPushButton:pressed {
+    background-color: rgba(124, 58, 237, 0.16);
+    color: #7C3AED;
+}
+
+QFrame#zoomControl QPushButton:disabled {
+    background-color: transparent;
+    color: #5A5960;
+}
+
+QPushButton#zoomOutButton,
+QPushButton#zoomInButton {
+    font-size: 13pt;
+    font-weight: 600;
+    min-width: 22px;
+}
+
+QPushButton#zoomValueButton {
+    font-weight: 600;
+}
+
+/* ---------- Tooltips ---------- */
+
+QToolTip {
+    background-color: #242428;
+    color: #F2F1F5;
+    border: 1px solid #302F36;
+    padding: 4px 8px;
+}

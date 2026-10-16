@@ -1,0 +1,63 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.spec.bak
+pdfalchemy.spec~
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Linters / type checkers
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.pytype/
+
+# Local test PDFs (personal documents)
+tests/test_pdfs/
+
+# Environment files / secrets
+.env
+.env.*
+*.pfx
+*.p12
+*.pem
+*.key
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Installer output
+installer/Output/
+*.exe
+
+# Local settings/user data
+*.log
