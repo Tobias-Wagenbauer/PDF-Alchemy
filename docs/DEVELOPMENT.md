@@ -23,10 +23,9 @@ into this environment, including confirming that `PySide6` (and its `QtPdf`/
 `QtPdfWidgets` modules), `pypdf`, `reportlab`, and `pyhanko` all import
 cleanly on Python 3.14.
 
-`pyproject.toml` declares `requires-python = ">=3.11"` as the project's
-general floor (in case anyone sets up an older interpreter), but **3.14 via
-the `pdf_alchemy` conda environment is the actively developed and tested
-version** — prefer it for all day-to-day work on this project.
+`pyproject.toml` declares `requires-python = ">=3.14"`: Python 3.14 (via the
+`pdf_alchemy` conda environment) is the version the project is developed,
+tested, and packaged with.
 
 ### Creating the environment (already done, for reference)
 

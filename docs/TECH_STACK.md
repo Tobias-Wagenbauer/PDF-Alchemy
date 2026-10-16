@@ -6,18 +6,23 @@ the reasoning instead of just the decision.
 
 ## Summary
 
-| Concern | Choice | License |
-|---|---|---|
-| Language | Python 3.11+ (developed & tested on 3.14 via the `pdf_alchemy` conda env) | PSF License |
-| UI framework | [PySide6](https://doc.qt.io/qtforpython/) (Qt for Python) | LGPLv3 |
-| PDF rendering/viewing | Qt's built-in `QtPdf` module (`QPdfDocument`/`QPdfView`) | LGPLv3 (part of Qt/PySide6) |
-| PDF editing (merge/split/rotate/remove) | [`pypdf`](https://pypdf.readthedocs.io/) | MIT |
-| Visual signature stamping | [`reportlab`](https://www.reportlab.com/opensource/) | BSD |
-| Cryptographic signing (PAdES) | [`pyHanko`](https://github.com/MatthiasValvekens/pyHanko) | MIT |
-| Printing | Qt's `QPrinter` / `QPrintDialog` (part of PySide6) | LGPLv3 |
-| Packaging | [PyInstaller](https://pyinstaller.org/) | GPLv2 with a linking exception (safe for closed or open-source apps it bundles) |
-| Installer | [Inno Setup](https://jrsoftware.org/isinfo.php) | Free for any use (custom license) |
-| Testing | `pytest`, `pytest-qt` | MIT |
+Versions are the ones pinned in [`requirements.txt`](../requirements.txt);
+`pyproject.toml` declares the minimum versions.
+
+| Concern | Choice | Version | License |
+|---|---|---|---|
+| Language | Python (Windows-only app; developed, tested & packaged on the `pdf_alchemy` conda env) | 3.14+ (3.14.8) | PSF License |
+| UI framework | [PySide6](https://doc.qt.io/qtforpython/) (Qt for Python) | 6.12.0 | LGPLv3 |
+| PDF rendering/viewing | Qt's built-in `QtPdf` module (`QPdfDocument`/`QPdfView`, search via `QPdfSearchModel`) | (with PySide6) | LGPLv3 (part of Qt/PySide6) |
+| PDF editing (merge/split/rotate/remove) | [`pypdf`](https://pypdf.readthedocs.io/) | 6.20.1 | MIT |
+| Visual signature stamping | [`reportlab`](https://www.reportlab.com/opensource/) | 5.0.1 | BSD |
+| Cryptographic signing (PAdES) | [`pyHanko`](https://github.com/MatthiasValvekens/pyHanko) (uses `cryptography`) | 0.37.0 | MIT |
+| Printing | Qt's `QPrinter` / `QPrintDialog` (part of PySide6) | (with PySide6) | LGPLv3 |
+| Packaging | [PyInstaller](https://pyinstaller.org/) (`pdfalchemy.spec`) | 6.22.3 | GPLv2 with a linking exception (safe for closed or open-source apps it bundles) |
+| Installer | [Inno Setup](https://jrsoftware.org/isinfo.php) 6 (`installer/pdfalchemy.iss`) | 6.x | Free for any use (custom license) |
+| Code signing (planned) | Code-signing certificate + `signtool` (or Azure Trusted Signing / SignPath) | — | — |
+| Testing | `pytest`, `pytest-qt` | 9.1.1, 4.5.0 | MIT |
+| Formatting & linting | `black`, `ruff` | 26.10.1, 0.17.1 | MIT |
 
 All runtime libraries are permissive (MIT/BSD) or LGPL, which keeps the
 project genuinely free to use, modify, and distribute — including

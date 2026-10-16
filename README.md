@@ -39,8 +39,8 @@ and status tracking.
 
 ## Tech stack
 
-- **Language:** Python 3.11+
-- **UI framework:** [PySide6](https://doc.qt.io/qtforpython/) (Qt for Python)
+- **Language:** Python 3.14+
+- **UI framework:** [PySide6](https://doc.qt.io/qtforpython/) 6.12 (Qt for Python)
 - **PDF rendering:** Qt's built-in `QtPdf` module (`QPdfDocument` / `QPdfView`)
 - **PDF editing:** [`pypdf`](https://pypdf.readthedocs.io/) (merge, split, rotate, remove pages)
 - **Signing:** [`reportlab`](https://www.reportlab.com/opensource/) (visual stamp overlays) and [`pyHanko`](https://github.com/MatthiasValvekens/pyHanko) (cryptographic PAdES signatures)
