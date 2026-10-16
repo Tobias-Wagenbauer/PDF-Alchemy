@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/branding/icon.png" alt="PDF Alchemy logo" width="128">
+</p>
+
 # PDF Alchemy
 
 A free, open-source Windows desktop application for viewing and editing PDF
