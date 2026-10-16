@@ -19,7 +19,7 @@ Status legend: 📋 Planned · 🔨 In progress · ✅ Done
 | Page position indicator | Right-hand sidebar showing current/total page | `ui/sidebar/page_nav_section.py`, driven by `PdfViewerWidget.page_position_changed` (from `QPdfPageNavigator`/`QPdfDocument`) | ✅ |
 | Jump to page | Type a page number in the sidebar and jump the view to its start | Editable `QLineEdit` in `ui/sidebar/page_nav_section.py` emits `page_jump_requested`; `PdfViewerWidget.jump_to_page()` calls `QPdfPageNavigator.jump(page_index, QPointF(0, 0))` | ✅ |
 | Page thumbnails | Sidebar list of page previews for navigation | Low-res renders via `QPdfDocument.render()` | 📋 |
-| Zoom & pan | Zoom in/out and pan around a page | `QPdfView` in `MultiPage` mode; Ctrl+wheel and a floating `-`/`100%`/`+` control zoom 10%–5000% (100% = fit-to-width on load). Panning is via scrolling | ✅ |
+| Zoom & pan | Zoom in/out and pan around a page | `QPdfView` in `MultiPage` mode; Ctrl+wheel and a floating `-`/`100%`/`+` control zoom 10%–500% (100% = fit-to-width on load). Panning is via scrolling | ✅ |
 | Find in document | Auto-search (debounced, 3+ chars) for text, "x of y" counter, next/prev navigation, all matches highlighted on the page | `QPdfSearchModel` (Qt's built-in async text search) + a custom-painted overlay in `ui/viewer/overlays.py` (state in `ui/viewer/search.py`); search UI lives in `ui/sidebar/search_section.py`; Ctrl+F / Edit → Find... focuses it | ✅ |
 | Rotate pages | Rotate one or more selected pages (90/180/270°) | `pypdf` `PageObject.rotate()` | 📋 |
 | Combine PDFs | Merge multiple PDF files into one, in chosen order | `pypdf.PdfWriter.append()` per source file | 📋 |

@@ -56,7 +56,7 @@ once a first release is published.
   control at the top-right of the viewer (`ZoomControl` in
   `ui/viewer_widget.py`) shows the current zoom (100% = fit-to-width on
   load), updates live while zooming, steps through fixed levels with its
-  `+`/`-` buttons (10%–5000%), and resets to 100% when the percentage is
+  `+`/`-` buttons (10%–500%), and resets to 100% when the percentage is
   clicked.
 - Empty-state card: when no document is open (on startup and after
   File → Close), the viewer now shows a centered card (`EmptyStateView` in
